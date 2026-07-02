@@ -1,0 +1,18 @@
+[package]
+name = "securesave"
+version = "1.0.0"
+edition = "2024"
+description = "A modern, reliable backup manager for Linux"
+license = "MIT"
+repository = "https://github.com/moon1pact/securesave"
+readme = "README.md"
+keywords = ["backup", "cli", "linux"]
+categories = ["command-line-utilities", "filesystem"]
+
+[dependencies]
+clap = { version = "4.6.1", features = ["derive"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.150"
+tiny_http = "0.12.0"
+toml = "1.1.2"
+zstd = "0.13.3"
