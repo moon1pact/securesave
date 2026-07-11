@@ -214,7 +214,7 @@ non-zero.
 
 To repair a corrupted file reported by `verify`, delete it from the backup
 and run the job again. The incremental check trusts sizes and mtimes for
-speed, so a plain re-run would not detect silent corruption on its own;
+speed, so a plain re-run would not detect silent corruption on its own ;
 deleting the damaged file forces it to be backed up afresh.
 
 ### Job status
@@ -225,7 +225,7 @@ documents  none  OK, last run unknown
 photos     zstd  OK, last run 2 hour(s) ago, 2841 file(s)
 ```
 
-The last-run time of compressed jobs comes from their manifest; plain jobs
+The last-run time of compressed jobs comes from their manifest ; plain jobs
 carry no state, so their last run is reported as unknown.
 
 ### Local dashboard
@@ -298,7 +298,7 @@ listed file must be present.
 
 ## Current Limitations
 
-Documented deliberately: you should know exactly what the tool does and
+Documented deliberately : you should know exactly what the tool does and
 does not do before trusting it.
 
 * Files deleted from the source are **not** removed from the destination
@@ -340,12 +340,12 @@ known issues).
 ## Contributing
 
 Contributions are what make the open source community such an amazing place
-to learn, inspire, and create. Any contributions you make are **greatly
+to learn, inspire, and create. Any contributions you make are **really
 appreciated**.
 
-Please keep in mind the project's philosophy: small, well-explained changes
+Please keep in mind the project's philosophy : small, well-explained changes
 with tests. For anything non-trivial, open an issue first to discuss the
-design. Before submitting, make sure the following all pass:
+design. Before submitting, make sure the following all pass :
 
 ```sh
 cargo test
@@ -370,9 +370,9 @@ information.
 
 ## Contact
 
-moon1pact - [@moon1pact](https://github.com/moon1pact)
+moon1pact ; [@moon1pact](https://github.com/moon1pact)
 
-Project Link: [https://github.com/moon1pact/securesave](https://github.com/moon1pact/securesave)
+Project Link : [https://github.com/moon1pact/securesave](https://github.com/moon1pact/securesave)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
