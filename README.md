@@ -21,9 +21,9 @@
   </p>
 </div>
 
-> **Status: v1.0.** The core engine, the on-disk formats (plain mirror,
+> **Status : v1.0.** The core engine, the on-disk formats (plain mirror,
 > `.zst` files, manifest v1) and the CLI are stable. As with any backup
-> tool: test your restore path before you rely on it.
+> tool : test your restore path before you rely on it.
 
 <details>
   <summary>Table of Contents</summary>
@@ -59,35 +59,35 @@
 
 SecureSave favors **correctness over features**. Every file is written
 through a temporary file, flushed to disk (`fsync`), then atomically renamed
-into place: an interrupted backup never leaves a half-written file at its
-final path. The project grows slowly and deliberately: each feature is added
+into place : an interrupted backup never leaves a half-written file at its
+final path. The project grows slowly and deliberately : each feature is added
 only when its design is solid.
 
-* **Reliable by construction**: atomic writes, timestamps preserved, errors
+* **Reliable by construction** : atomic writes, timestamps preserved, errors
   always report the affected path
-* **Recoverable without the tool**: plain backups are a browsable mirror;
+* **Recoverable without the tool** : plain backups are a browsable mirror;
   compressed backups are ordinary `.zst` files that standard `zstd -d` can
   restore. Your data never depends on SecureSave existing
-* **Simple**: one binary, one TOML file, no daemon
-* **Honest**: known limitations are documented below
+* **Simple** : one binary, one TOML file, no daemon
+* **Honest** : known limitations are documented below
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Features
 
-* **Incremental backups**: a file is copied only if its size or modification
+* **Incremental backups** : a file is copied only if its size or modification
   time changed since the last run ("quick check", as rsync does)
-* **Optional zstd compression** per job: every file is compressed
+* **Optional zstd compression** per job : every file is compressed
   individually and stored with a `.zst` suffix
-* **Safe restore**: `securesave restore` detects the backup format
+* **Safe restore** : `securesave restore` detects the backup format
   automatically, verifies compressed backups against the manifest, and
   refuses to overwrite anything
-* **Verification**: `securesave verify` reads every byte of a backup and
+* **Verification** : `securesave verify` reads every byte of a backup and
   reports all problems found (corruption, missing files, leftovers)
-* **Status**: `securesave status` shows every job with its destination
+* **Status** : `securesave status` shows every job with its destination
   state and its last successful run. Everything is derived from the
   manifest; SecureSave keeps no other state
-* **Local dashboard**: `securesave serve` shows the same status as a web
+* **Local dashboard** : `securesave serve` shows the same status as a web
   page on `127.0.0.1`. Read-only, no JavaScript, never exposed to the
   network
 * Directory trees, file permissions and file modification times are
@@ -101,7 +101,7 @@ only when its design is solid.
 
 * [![Rust][Rust-badge]][Rust-url]
 
-Runtime dependencies are kept deliberately small: [clap][clap-url],
+Runtime dependencies are kept deliberately small : [clap][clap-url],
 [serde][serde-url], [toml][toml-url], [zstd][zstd-url],
 [serde_json][serde-json-url] and [tiny_http][tiny-http-url].
 
@@ -141,7 +141,7 @@ destination = "/mnt/backup/documents"
 compression = "zstd"
 ```
 
-Then:
+Then :
 
 ```sh
 securesave backup documents   # run the job (incremental after the first run)
@@ -166,7 +166,7 @@ Backup complete: 132 file(s) copied (5934012 bytes), 0 up to date, 3 symlink(s),
 ### Named jobs
 
 Declare your recurring backups once in the configuration file, then run them
-by name:
+by name :
 
 ```console
 $ securesave backup photos
@@ -191,10 +191,10 @@ $ securesave restore /mnt/backup/photos ~/Photos-restored
 Restore complete: 2841 file(s) copied (1250781342 bytes), 0 up to date, 0 symlink(s), 0 skipped
 ```
 
-Restore never overwrites anything: the target must not exist, or must be an
+Restore never overwrites anything : the target must not exist, or must be an
 empty directory. The backup format (plain or compressed) is detected
 automatically. For compressed backups, every file is verified against the
-manifest during the restore: a missing or damaged file is a hard error,
+manifest during the restore : a missing or damaged file is a hard error,
 while stray files (present in the backup but unknown to the manifest) are
 skipped with a warning.
 
@@ -237,7 +237,7 @@ Serving on http://127.0.0.1:7878 (Ctrl-C to stop)
 
 Serves the job status as a self-refreshing HTML page. The dashboard is
 **read-only** (no actions can be triggered from it) and binds to
-`127.0.0.1` only: it is for the local user, never a network service. Use
+`127.0.0.1` only : it is for the local user, never a network service. Use
 `--port` to change the port.
 
 ### Exit codes
@@ -251,7 +251,7 @@ Serves the job status as a self-refreshing HTML page. The dashboard is
 SecureSave reads `$XDG_CONFIG_HOME/securesave/config.toml`, falling back to
 `~/.config/securesave/config.toml`. If the file does not exist, SecureSave
 simply behaves as if no jobs were defined; direct mode works without any
-configuration. Each job is a named entry:
+configuration. Each job is a named entry :
 
 ```toml
 # ~/.config/securesave/config.toml
@@ -266,19 +266,19 @@ destination = "/mnt/backup/photos"
 compression = "zstd"   # optional; default: "none" (plain copy)
 ```
 
-Notes:
+Notes :
 
 * Paths must be **absolute**; `~` is not expanded inside the file
 * Unknown fields are rejected with a clear error. A typo in an option should
   never silently turn into a backup that does not do what you think
-* Future options will always be optional with sensible defaults: existing
+* Future options will always be optional with sensible defaults : existing
   configuration files will keep working as SecureSave evolves
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## How Compressed Backups Work
 
-With `compression = "zstd"`, every regular file is compressed individually:
+With `compression = "zstd"`, every regular file is compressed individually :
 `Photos/2024/img.jpg` becomes `img.jpg.zst` at the destination, under the
 same directory structure. You can always restore by hand with `zstd -d`.
 
@@ -290,7 +290,7 @@ successful run, and it is **never trusted alone**: if a `.zst` file is
 missing from the destination, the file is backed up again regardless of what
 the manifest says. Deleting the manifest simply forces a full re-backup.
 
-On restore, the manifest doubles as an integrity check: each file's
+On restore, the manifest doubles as an integrity check : each file's
 decompressed size must match what was recorded at backup time, and every
 listed file must be present.
 
